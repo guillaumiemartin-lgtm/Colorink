@@ -5,6 +5,9 @@ rem Au premier lancement : installe "uv", qui telecharge ensuite Python et les
 rem bibliotheques (quelques minutes). Ensuite, l application demarre directement.
 setlocal
 cd /d "%~dp0"
+rem PowerShell herite parfois d un PSModulePath incompatible (lancement depuis
+rem PowerShell 7) et ne peut plus charger ses modules : on le laisse le recalculer.
+set "PSModulePath="
 
 set "UV="
 where uv >nul 2>nul && set "UV=uv"
