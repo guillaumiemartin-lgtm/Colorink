@@ -1,0 +1,13 @@
+# environnement Python créé par uv au premier lancement
+.venv/
+__pycache__/
+*.pyc
+
+# fichiers produits en ligne de commande
+*_colorink.psd
+*_colorink.ora
+*_colorink.png
+
+# divers
+.DS_Store
+Thumbs.db
