@@ -1,0 +1,60 @@
+ColorInk — scanne · nettoie · ajoute des calques pour les couleurs
+Copyright (c) 2026 Martin Guillaumie — licence MIT (voir LICENSE)
+=====================================================================
+
+ColorInk prépare un dessin à l'encre pour la mise en couleur : il retire le
+papier d'une photo ou d'un scan, crée un aplat de couleur par forme fermée,
+et exporte un PSD en calques (Trait / Aplats / Papier).
+
+Mode d'emploi illustré : docs/guide.html (ou le bouton « How to » dans
+l'application).
+
+
+LANCER
+------
+Au premier lancement, il faut une connexion Internet : le lanceur installe
+« uv », qui télécharge Python et les bibliothèques. Cela prend quelques
+minutes, une seule fois.
+
+  Linux (testé) : ouvrir un terminal dans ce dossier et taper
+      sh lancer.sh
+  Un raccourci « ColorInk » apparaît ensuite dans le menu des applications.
+
+  Windows : double-clic sur lancer.bat      (non testé)
+  macOS   : double-clic sur lancer.command  (non testé)
+
+L'application s'ouvre dans le navigateur (adresse http://127.0.0.1:7860).
+Pour l'arrêter : fermer le terminal si vous l'avez lancé avec « sh lancer.sh ».
+Lancé depuis le raccourci du menu, il tourne sans fenêtre de terminal : il
+s'arrête au redémarrage de l'ordinateur, ou avec la commande
+      pkill -f interface.py
+
+
+UTILISER
+--------
+1. Dessin : déposer la photo ou le scan.
+2. Papier : laisser « Corriger l'éclairage » coché pour une photo ; monter la
+   balance si du gris du papier reste, la baisser si des traits fins
+   disparaissent.
+3. Zones : une zone en damier dans l'aperçu a « fui » par un trou du trait.
+   Augmenter « Fermeture des trous », ou fermer le trou à la main dans
+   l'onglet Guides.
+4. Guides (facultatif) :
+     Fermer (rouge)   sépare deux zones
+     Ouvrir (vert)    réunit deux zones
+     Exclure (violet) entourer une zone pour l'ignorer (texte d'une bulle…)
+     Gomme            efface les guides
+   Revenir ensuite sur « Aperçu » : le calcul se fait à ce moment-là.
+   Les guides n'apparaissent pas dans le résultat.
+5. Couleurs (facultatif) : choisir une couleur, cliquer sur une zone.
+   Les zones non peintes restent en bleu.
+6. Export : « Créer le PSD et l'image finie », puis télécharger.
+   « Un calque par îlot » met chaque zone sur son propre calque.
+
+Les PSD s'ouvrent dans Krita et GIMP (vérifié avec Krita 5.2 et GIMP 2.10).
+
+
+VIE PRIVÉE
+----------
+Une fois installé, ColorInk n'établit aucune connexion vers l'extérieur.
+Vos dessins restent sur votre ordinateur.

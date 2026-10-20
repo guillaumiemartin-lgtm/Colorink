@@ -1,0 +1,20 @@
+# ColorInk — Copyright (c) 2026 Martin Guillaumie — licence MIT
+[project]
+name = "colorink"
+version = "1.0.0"
+description = "Prépare un dessin à l'encre pour la mise en couleur : trait sans papier + un aplat par forme fermée, export PSD."
+authors = [{ name = "Martin Guillaumie" }]
+license = "MIT"
+requires-python = ">=3.11"
+dependencies = [
+    "gradio>=6,<7",
+    "opencv-python-headless>=4.8",
+    "scikit-image>=0.22",
+    "scipy>=1.10",
+    "numpy>=1.24",
+    "pillow>=10",
+    "psd-tools>=1.25,<2",
+]
+
+[tool.uv]
+package = false   # simple application : rien à installer comme bibliothèque
