@@ -5,12 +5,15 @@
 
 ![Photo d'un dessin, aplats produits par ColorInk, résultat peaufiné](docs/avant-apres.jpg)
 
+![ColorInk en action](docs/colorink_960.gif)
+
+
 [Français](#français) · [English](#english)
 
 ---
-![ColorInk en action](docs/colorink_960.gif)
 ## Français
 Vous voulez me payer un café pour me remercier ? :[![Soutenir sur Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/martinguillaumie)
+
 ColorInk prépare un dessin à l'encre pour la mise en couleur. À partir d'une photo ou d'un scan, il :
 
 1. retire le papier (le trait devient un calque transparent), en corrigeant les ombres et les dégradés d'une photo ;
