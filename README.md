@@ -8,7 +8,7 @@
 [Français](#français) · [English](#english)
 
 ---
-
+![ColorInk en action](docs/colorink_960.gif)
 ## Français
 
 ColorInk prépare un dessin à l'encre pour la mise en couleur. À partir d'une photo ou d'un scan, il :
