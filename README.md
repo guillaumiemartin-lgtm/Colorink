@@ -10,7 +10,7 @@
 ---
 ![ColorInk en action](docs/colorink_960.gif)
 ## Français
-
+Vous voulez me payer un café pour me remercier ? :[![Soutenir sur Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/martinguillaumie)
 ColorInk prépare un dessin à l'encre pour la mise en couleur. À partir d'une photo ou d'un scan, il :
 
 1. retire le papier (le trait devient un calque transparent), en corrigeant les ombres et les dégradés d'une photo ;
@@ -77,7 +77,7 @@ Le projet est terminé de mon côté : il fait ce dont j'ai besoin. Tout est là
 ---
 
 ## English
-
+Buy me a cofee if you want :[![Soutenir sur Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/martinguillaumie)
 ColorInk prepares an ink drawing for colouring. From a photo or a scan, it:
 
 1. removes the paper (the line art becomes a transparent layer), correcting the shadows and gradients of a photo;
