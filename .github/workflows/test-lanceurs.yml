@@ -85,7 +85,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-latest, macos-15-intel, ubuntu-latest]
+        os: [macos-15-intel, ubuntu-latest]   # macos-latest (puce Apple) : jamais de machine libre lors des essais
     runs-on: ${{ matrix.os }}
     timeout-minutes: 30
     steps:

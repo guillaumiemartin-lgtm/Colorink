@@ -19,8 +19,13 @@ which downloads Python and the libraries. This takes a few minutes, once.
       sh lancer.sh
   A "ColorInk" shortcut then appears in the applications menu.
 
-  Windows: double-click lancer.bat      (not tested)
-  macOS:   double-click lancer.command  (not tested)
+  Windows: extract the ZIP, then double-click lancer.bat
+           (a "ColorInk" shortcut is added to the desktop)
+  macOS:   double-click lancer.command
+
+  Windows and macOS (Intel) pass an automated test on fresh machines;
+  the double-click and the Windows or macOS security warnings have not
+  been tried by a person.
 
 The app opens in your browser (address http://127.0.0.1:7860).
 To stop it: close the terminal if you started it with "sh lancer.sh".

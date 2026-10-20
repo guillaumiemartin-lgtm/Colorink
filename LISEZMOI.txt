@@ -20,8 +20,13 @@ minutes, une seule fois.
       sh lancer.sh
   Un raccourci « ColorInk » apparaît ensuite dans le menu des applications.
 
-  Windows : double-clic sur lancer.bat      (non testé)
-  macOS   : double-clic sur lancer.command  (non testé)
+  Windows : extraire le ZIP, puis double-clic sur lancer.bat
+            (un raccourci « ColorInk » est ajouté sur le Bureau)
+  macOS   : double-clic sur lancer.command
+
+  Windows et macOS (Intel) passent un test automatique sur des machines
+  neuves ; le double-clic et les avertissements de sécurité de Windows ou
+  de macOS n'ont pas été essayés par une personne.
 
 L'application s'ouvre dans le navigateur (adresse http://127.0.0.1:7860).
 Pour l'arrêter : fermer le terminal si vous l'avez lancé avec « sh lancer.sh ».

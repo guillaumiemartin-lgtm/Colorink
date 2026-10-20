@@ -1,5 +1,7 @@
 # ColorInk
 
+[![Test des lanceurs](https://github.com/guillaumiemartin-lgtm/Colorink/actions/workflows/test-lanceurs.yml/badge.svg)](https://github.com/guillaumiemartin-lgtm/Colorink/actions/workflows/test-lanceurs.yml)
+
 **scanne · nettoie · ajoute des calques pour les couleurs**
 *scan · clean · add layers for colours*
 
@@ -32,7 +34,7 @@ Le mode d'emploi illustré est dans [`docs/guide.html`](docs/guide.html) (à ouv
 
 ### Vérifié
 
-- Testé sous **Linux**.
+- Lanceurs testés automatiquement sur des machines neuves, sans uv ni Python, sous **Linux**, **Windows** et **macOS (Intel)** : installation, démarrage de l'application et production d'un PSD ([test](.github/workflows/test-lanceurs.yml)). Testé aussi à la main sous Linux.
 - Les PSD produits s'ouvrent dans **Krita 5.2** et **GIMP 2.10** avec tous les calques, sans masque, et un rendu identique.
 - Une fois installé, ColorInk **n'établit aucune connexion vers l'extérieur** : les statistiques d'utilisation de Gradio sont désactivées et la police est incluse. Vos dessins restent sur votre ordinateur.
 
@@ -48,8 +50,10 @@ sh lancer.sh
 
 Le lanceur ajoute un raccourci « ColorInk » avec son icône au menu des applications ; ensuite, il suffit de l'utiliser. L'application s'ouvre dans le navigateur, à l'adresse `http://127.0.0.1:7860`.
 
-**Windows** : double-clic sur `lancer.bat`. **macOS** : double-clic sur `lancer.command`.
-⚠️ Ces deux lanceurs sont fournis mais **n'ont pas été testés**. Retours bienvenus.
+**Windows** : extraire le ZIP, puis double-clic sur `lancer.bat`. Le lanceur ajoute un raccourci « ColorInk » sur le Bureau.
+**macOS** : double-clic sur `lancer.command`.
+
+Ces deux lanceurs passent le test automatique (installation complète, démarrage, PSD), mais n'ont pas été essayés par une personne : le double-clic lui-même et les éventuels avertissements de sécurité (SmartScreen sous Windows, Gatekeeper sous macOS) ne sont pas testés, ni les Mac à puce Apple. Retours bienvenus.
 
 **Sans les lanceurs**, sous Linux (Python ≥ 3.11) :
 
@@ -99,7 +103,7 @@ The illustrated user guide is in [`docs/guide.html`](docs/guide.html) (open it i
 
 ### Verified
 
-- Tested on **Linux**.
+- Launchers tested automatically on fresh machines, without uv or Python, on **Linux**, **Windows** and **macOS (Intel)**: install, app start-up and PSD output ([test](.github/workflows/test-lanceurs.yml)). Also tested by hand on Linux.
 - The PSD files open in **Krita 5.2** and **GIMP 2.10** with all layers, no masks, and identical rendering.
 - Once installed, ColorInk **makes no outside connections**: Gradio usage statistics are turned off and the font is bundled. Your drawings stay on your computer.
 
@@ -115,8 +119,10 @@ sh lancer.sh
 
 The launcher adds a "ColorInk" shortcut with its icon to the applications menu; after that, just use it. The app opens in your browser at `http://127.0.0.1:7860`.
 
-**Windows**: double-click `lancer.bat`. **macOS**: double-click `lancer.command`.
-⚠️ These two launchers are provided but **have not been tested**. Feedback welcome.
+**Windows**: extract the ZIP, then double-click `lancer.bat`. The launcher adds a "ColorInk" shortcut to the desktop.
+**macOS**: double-click `lancer.command`.
+
+Both launchers pass the automated test (full install, start-up, PSD), but have not been tried by a person: the double-click itself and possible security warnings (SmartScreen on Windows, Gatekeeper on macOS) are not tested, nor Apple-silicon Macs. Feedback welcome.
 
 **Without the launchers**, on Linux (Python ≥ 3.11):
 

@@ -16,7 +16,7 @@ Notes pour qui veut modifier ou continuer le projet : comment il est construit, 
 | `docs/source/` | Le modèle du guide (`modele_guide.html`), ses images et `construire_guide.py`, qui produit `docs/guide.html` avec les images intégrées. |
 | `images/` | Logo, icône (`.png` pour Linux et l'onglet du navigateur, `.ico` pour Windows). |
 | `polices/` | Police Outfit (SIL OFL 1.1), servie localement. |
-| `lancer.sh`, `lancer.command`, `lancer.bat` | Lanceurs uv (Linux / macOS / Windows). Seul `lancer.sh` a été testé, sous Linux. |
+| `lancer.sh`, `lancer.command`, `lancer.bat` | Lanceurs uv (Linux / macOS / Windows), testés automatiquement par `.github/workflows/test-lanceurs.yml`. |
 | `pyproject.toml`, `.python-version`, `requirements.txt` | Dépendances (uv lit les deux premiers, pip le dernier). |
 
 Après une modification du guide : `python docs/source/construire_guide.py`.
@@ -64,12 +64,12 @@ image → fond du papier estimé → alpha du trait → seuil + guides rouges �
 
 ## Limites connues
 
-- Les lanceurs Windows et macOS n'ont pas été testés.
+- Les lanceurs Windows et macOS passent le test automatique sur les machines de GitHub (Windows Server, macOS Intel). Le double-clic, SmartScreen, Gatekeeper et les Mac à puce Apple restent à essayer par une personne.
 - L'aperçu travaille sur une image réduite, mais l'export recalcule tout en pleine résolution : sur de très grandes images, cela peut prendre du temps et de la mémoire.
 - Un trait très pâle ou très irrégulier demande des guides à la main.
 
 ## Pistes
 
-- Tester `lancer.bat` et `lancer.command`, par exemple avec GitHub Actions (machines Windows et macOS).
+- Ajouter les Mac à puce Apple (`macos-latest`) au test quand GitHub a des machines libres : au moment de l'écriture, elles n'étaient jamais disponibles.
 - Une vraie fenêtre d'application (pywebview) ou le mode application de Chrome, au lieu d'un onglet du navigateur.
 - Une démo en ligne (Hugging Face Spaces) : pratique, mais les dessins quitteraient alors l'ordinateur de l'utilisateur. À signaler clairement si quelqu'un la met en place.

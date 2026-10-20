@@ -16,7 +16,7 @@ Notes for anyone who wants to change or continue the project: how it is built, w
 | `docs/source/` | The guide template (`modele_guide.html`), its images and `construire_guide.py`, which builds `docs/guide.html` with embedded images. |
 | `images/` | Logo, icon (`.png` for Linux and the browser tab, `.ico` for Windows). |
 | `polices/` | Outfit font (SIL OFL 1.1), served locally. |
-| `lancer.sh`, `lancer.command`, `lancer.bat` | uv launchers (Linux / macOS / Windows). Only `lancer.sh` has been tested, on Linux. |
+| `lancer.sh`, `lancer.command`, `lancer.bat` | uv launchers (Linux / macOS / Windows), tested automatically by `.github/workflows/test-lanceurs.yml`. |
 | `pyproject.toml`, `.python-version`, `requirements.txt` | Dependencies (uv reads the first two, pip the last). |
 
 After changing the guide: `python docs/source/construire_guide.py`.
@@ -64,12 +64,12 @@ image → estimated paper background → line alpha → threshold + red guides �
 
 ## Known limits
 
-- The Windows and macOS launchers have not been tested.
+- The Windows and macOS launchers pass the automated test on GitHub's machines (Windows Server, Intel macOS). Double-click, SmartScreen, Gatekeeper and Apple-silicon Macs still need trying by a person.
 - The preview works on a reduced image, but export recomputes everything at full resolution: very large images can take time and memory.
 - Very faint or very irregular lines need guides drawn by hand.
 
 ## Ideas
 
-- Test `lancer.bat` and `lancer.command`, for example with GitHub Actions (Windows and macOS runners).
+- Add Apple-silicon Macs (`macos-latest`) to the test when GitHub has free machines: at the time of writing they were never available.
 - A real app window (pywebview) or Chrome's app mode, instead of a browser tab.
 - An online demo (Hugging Face Spaces): handy, but drawings would then leave the user's computer. Say so clearly if someone sets one up.
