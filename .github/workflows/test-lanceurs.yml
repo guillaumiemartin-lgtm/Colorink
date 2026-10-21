@@ -1,0 +1,130 @@
+# ColorInk — test des lanceurs sur des machines neuves (Windows, macOS, Linux)
+# Copyright (c) 2026 Martin Guillaumie — licence MIT
+#
+# Simule un ordinateur sans uv ni Python : le lanceur doit tout installer,
+# démarrer l'application, puis ColorInk doit produire un PSD.
+# Se lance à la main (onglet Actions → Test des lanceurs → Run workflow)
+# ou à chaque modification des lanceurs ou du code.
+
+name: Test des lanceurs
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "lancer.*"
+      - "*.py"
+      - "*.js"
+      - "pyproject.toml"
+      - ".python-version"
+      - ".github/workflows/test-lanceurs.yml"
+
+env:
+  # ignorer tout Python déjà présent sur la machine de test : uv doit télécharger le sien
+  UV_PYTHON_PREFERENCE: only-managed
+  PYTHONUTF8: "1"
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Lancer lancer.bat sans uv sur la machine
+        shell: pwsh
+        run: |
+          # retirer du PATH tout dossier qui contient déjà uv
+          $env:Path = (($env:Path -split ';') | Where-Object { $_ -and -not (Test-Path (Join-Path $_ 'uv.exe')) }) -join ';'
+          if (Get-Command uv -ErrorAction SilentlyContinue) { throw "uv est encore visible" }
+          $p = Start-Process cmd.exe -ArgumentList '/c', 'lancer.bat' -NoNewWindow -PassThru `
+                 -RedirectStandardOutput lanceur.log -RedirectStandardError lanceur.err
+          $ok = $false
+          for ($i = 0; $i -lt 120; $i++) {
+            try {
+              $r = Invoke-WebRequest http://127.0.0.1:7860/ -UseBasicParsing -TimeoutSec 5
+              if ($r.StatusCode -eq 200) { $ok = $true; break }
+            } catch {}
+            if ($p.HasExited) { Write-Host "Le lanceur s'est arrêté (code $($p.ExitCode))"; break }
+            Start-Sleep 5
+          }
+          Write-Host "----- sortie du lanceur -----"; Get-Content lanceur.log, lanceur.err
+          $txt = ((Get-Content lanceur.log, lanceur.err -ErrorAction SilentlyContinue | Select-Object -Last 40) -join "`n")
+          $txt = $txt.Replace('%', '%25').Replace("`r", '').Replace("`n", '%0A')
+          Write-Host "::notice title=Sortie de lancer.bat::$txt"
+          taskkill /F /T /PID $p.Id | Out-Null
+          if (-not $ok) { throw "ColorInk n'a pas démarré" }
+          Write-Host "OK : l'application répond sur http://127.0.0.1:7860"
+
+      - name: Vérifier uv et le raccourci du Bureau
+        shell: pwsh
+        run: |
+          $uv = "$env:USERPROFILE\.local\bin\uv.exe"
+          if (-not (Test-Path $uv)) { throw "uv n'est pas là où lancer.bat le cherche : $uv" }
+          & $uv --version
+          $lnk = Join-Path ([Environment]::GetFolderPath('Desktop')) 'ColorInk.lnk'
+          if (Test-Path $lnk) { Write-Host "OK : raccourci créé ($lnk)" } else { Write-Host "::warning::raccourci du Bureau absent" }
+
+      - name: Produire un PSD
+        shell: pwsh
+        run: |
+          $uv = "$env:USERPROFILE\.local\bin\uv.exe"
+          & $uv run --project . python colorink.py docs/source/images/pyr_photo.jpg
+          & $uv run --project . python -c "from psd_tools import PSDImage; p = PSDImage.open('docs/source/images/pyr_photo_colorink.psd'); n = [l.name for l in p]; print('calques :', n); assert n == ['Papier', 'Aplats', 'Trait'], n"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: windows
+          path: |
+            lanceur.log
+            lanceur.err
+            docs/source/images/pyr_photo_colorink.psd
+
+  macos-linux:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-15-intel, ubuntu-latest]   # macos-latest (puce Apple) : jamais de machine libre lors des essais
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Lancer le lanceur sans uv sur la machine
+        shell: bash
+        run: |
+          # retirer du PATH tout dossier qui contient déjà uv
+          PATH=$(echo "$PATH" | tr ':' '\n' | while read -r d; do [ -n "$d" ] && [ ! -x "$d/uv" ] && echo "$d"; done | paste -sd: -)
+          export PATH
+          if command -v uv; then echo "uv est encore visible"; exit 1; fi
+          if [ "$RUNNER_OS" = "macOS" ]; then LANCEUR=lancer.command; else LANCEUR=lancer.sh; fi
+          echo "Lanceur testé : $LANCEUR"
+          sh "$LANCEUR" > lanceur.log 2>&1 &
+          ok=0
+          for i in $(seq 1 120); do
+            if curl -sf -o /dev/null http://127.0.0.1:7860/; then ok=1; break; fi
+            kill -0 $! 2>/dev/null || { echo "Le lanceur s'est arrêté"; break; }
+            sleep 5
+          done
+          echo "----- sortie du lanceur -----"; cat lanceur.log
+          echo "::notice title=Sortie de $LANCEUR::$(tail -n 40 lanceur.log | sed 's/%/%25/g' | tr -d '\r' | awk '{printf "%s%%0A", $0}')"
+          pkill -f interface.py || true
+          [ "$ok" = 1 ] || { echo "ColorInk n'a pas démarré"; exit 1; }
+          echo "OK : l'application répond sur http://127.0.0.1:7860"
+
+      - name: Produire un PSD
+        shell: bash
+        run: |
+          UV="$HOME/.local/bin/uv"
+          "$UV" --version
+          "$UV" run --project . python colorink.py docs/source/images/pyr_photo.jpg
+          "$UV" run --project . python -c "from psd_tools import PSDImage; p = PSDImage.open('docs/source/images/pyr_photo_colorink.psd'); n = [l.name for l in p]; print('calques :', n); assert n == ['Papier', 'Aplats', 'Trait'], n"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ${{ matrix.os }}
+          path: |
+            lanceur.log
+            docs/source/images/pyr_photo_colorink.psd
